@@ -1,0 +1,404 @@
+1. Fractional knapsack
+Time complexiity:- O(nlogn) if profit/weight is not sorted in decreasing order, O(n) if arranged.
+
+print("Enter obj profits:")
+profit=list(map(int,input().split()))
+print("Enter obj weights:")
+weights=list(map(int,input().split()))
+print("Enter capacity:")
+capacity=int(input())
+pw=[0 for i in range(len(profit))]
+for i in range(len(profit)):
+    pw[i]=profit[i]/weights[i]
+
+def bubbleSort(p,w,pw):
+    for i in range(len(p)-1):
+        for j in range(len(p)-1-i):
+            if(pw[j]<pw[j+1]):
+                q=pw[j]
+                pw[j]=pw[j+1]
+                pw[j+1]=q
+
+                r=p[j]
+                p[j]=p[j+1]
+                p[j+1]=r
+
+                s=w[j]
+                w[j]=w[j+1]
+                w[j+1]=s
+
+
+    return [p,w,pw]
+l=bubbleSort(profit,weights,pw)
+profit=l[0]
+weights=l[1]
+pw=l[2]
+x=[0 for i in range(len(profit))]
+
+print("profit:")
+print(profit)
+print("weights:")
+print(weights)
+print("profit/weights:")
+print(pw)
+for i in range(len(profit)):
+    if(weights[i]>capacity):
+        break
+    x[i]=1
+    capacity=capacity-weights[i]
+
+if(i<len(profit)):
+    x[i]=capacity/weights[i]
+
+ans=0
+for i in range(len(profit)):
+    ans=ans+(x[i]*profit[i])
+print("Items selected are:",x)
+print("Total profit:",ans)
+
+2. Heap sort
+Time:-O(nlogn)
+Space:-O(1)
+
+l=list(map(int,input().split()))
+n=len(l)
+def heapify(A,n,i):
+    largest=i
+    l=2*i+1
+    r=2*i+2
+    if(l<n and A[l]>A[i]):
+       largest=l
+    if(r<n and A[r]>A[largest]):
+        largest=r
+    if(largest!=i):
+        A[i],A[largest]=A[largest],A[i]
+        heapify(A,n,largest)
+
+def buildHeap(A):
+    n=len(A)
+    for i in range((n//2)-1,-1,-1):
+        heapify(A,n,i)
+
+
+def heapSort(A):
+    n=len(A)
+    buildHeap(A)
+    for i in range(n-1,0,-1):
+        A[0],A[i]=A[i],A[0]
+        heapify(A,i,0)
+heapSort(l)
+for i in range(n):
+    print("%d"%l[i])
+
+3. Counting sort
+Time:- O(n+k)
+Space:- O(k)
+
+import java.util.Arrays;
+public class Practice {
+    public static void main(String[] args) {
+        int[] arr = {1,4,1,2,7,5,2};
+        System.out.println("Unsorted array is ---> "+ Arrays.toString(arr));
+        Practice obj = new Practice();
+        int[] b = new int[arr.length+1];
+        int max = arr[0];
+        for(int i = 1;i<arr.length;i++){
+            if(arr[i]>max){
+                max = arr[i];
+            }
+        }
+        int[] k = new int[max+1];
+        int[] brr = obj.countSort(arr,b,max,k,arr.length);
+        System.out.println("Sorted array is ---> "+Arrays.toString(brr));
+        System.out.println("Submitted by Akshi Gupta");
+    }
+    public int[] countSort(int[] a,int[] b,int max,int[] c,int n){
+        for(int j = 0;j<n;j++){
+            c[a[j]] = c[a[j]]+1;
+        }
+        for(int i = 1;i<max+1;i++){
+            c[i] = c[i]+c[i-1];
+        }
+        for(int j = n-1;j>=0;j--){
+            b[c[a[j]]] = a[j];
+            c[a[j]] = c[a[j]]-1;
+        }
+        return b;
+    }
+}
+
+4. Bubble sort
+Time complexity:- O(n) Best case, O(n^2) Average and worst case
+Space commplexity:- O(1)
+
+import java.util.Arrays;
+public class MyBubbleSort {
+    public static void main(String[] args) {
+        int[] arr = {12,8,16,5,2};
+        System.out.println("Unsorted array is ---> "+ Arrays.toString(arr));
+        MyBubbleSort obj = new MyBubbleSort();
+        obj.BubbleSort(arr);
+        System.out.println("Sorted array is ---> "+Arrays.toString(arr));
+    }
+    public void BubbleSort(int[] arr){
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr.length-1; j++) {
+                if(arr[j]>arr[j+1]){
+                    System.out.println("Swapping elemnts is "+arr[j]+" with "+arr[j+1]);
+                    int temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                }
+                else{
+                    System.out.println("No Swap " + arr[j] + " with " +
+                            arr[j+1] );
+                }
+                System.out.println(Arrays.toString(arr)); 
+            }
+            System.out.println("After " + (i+1) + " pass");
+        }
+    }
+}
+
+5. insertion sort
+Time complexity:- O(n) Best Case, O(n^2) Avg and worst case
+Space complexity:-O(1)
+
+import java.util.Arrays;
+public class Sort {
+    public static void main(String[] args) {
+        int[] arr = {12,8,16,2,5};
+        System.out.println("Unsorted array is ---> "+ Arrays.toString(arr));
+        Sort obj = new Sort();
+        obj.insertionSort(arr);
+        System.out.println("Sorted array is ---> "+ Arrays.toString(arr));
+    }
+    public void insertionSort(int[] arr){
+        int sortedIndex = 0;
+        int unsortedIndex;
+        for (unsortedIndex = 1; unsortedIndex < arr.length; unsortedIndex++) {
+            int nextAvailableElement = arr[unsortedIndex];
+            for (int j = unsortedIndex; j >0; j--) {
+                if(arr[j]<arr[j-1]){
+                    int temp = arr[j];
+                    arr[j] = arr[j-1];
+                    arr[j-1] = temp;
+                    System.out.println("After swapping ");
+                    System.out.println(Arrays.toString(arr));
+                }
+                else{
+                    break;
+                }
+            }
+        }
+    }
+}
+
+6. linear search 
+Time:- O(1) best, O(n) avg, worst
+Space:- O(1)
+
+public class Main {
+public boolean search(int[] arr, int searchElement){
+booleanresponse = false;
+ for(int i = 0;i<arr.length;i++){
+if(arr[i] == searchElement){
+ response = true;
+ break;
+}
+ }
+return response;
+}
+public static void main(String[] args) {
+int[] arr = new int[]{30,22,25,50,22,65,22,90};
+System.out.println("22 is present in given array or not :
+"+search(arr,22));
+}
+}
+
+7. Activity selection
+Time complexity:- O(nlogn) if input activities not sorted, O(n) if sorted 
+
+Solution :
+print("Enter the activities : ")
+activity = list(map(str,input().split(" ")))
+print("Enter the start time of all activities : ")
+start_time = list(map(int,input().split(" ")))
+print("Enter the finish time of all activities : ")
+end_time = list(map(int,input().split(" ")))
+def bubbleSort(a,s,f):
+ for i in range(0,len(a)-1):
+ for j in range(0,len(a)-1-i):
+ if(f[j]>f[j+1]):
+ t = f[j]
+ f[j] = f[j+1]
+ f[j+1] = t
+ r = a[j]
+ a[j] = a[j+1]
+ a[j+1] = r
+ x = s[j]
+ s[j] = s[j+1]
+ s[j+1] = x
+ return [a,s,f]
+l = bubbleSort(activity,start_time,end_time)
+print("After arranging the activities in increasing order of their finish time : ")
+print("Activities are : ")
+print(activity)
+print("Start time is are : ")
+print(start_time)
+print("Finish time is : ")
+print(end_time)
+activity = l[0]
+start_time = l[1]
+end_time = l[2]
+out = [activity[0]]
+end = end_time[0]
+for i in range(1,len(activity)):
+ if(end<=start_time[i]):
+ out.append(activity[i])
+ print(end)
+ end = end_time[i]
+print("Selected activities are :",out)
+
+8. Binary search 
+Time:- O(1) best, O(logn) avg, worst
+Space:- O(1)
+
+package Sort;
+import java.util.Arrays;
+public class Sort {
+    public static void main(String[] args) {
+        int[] arr = {12,8,16,5,2};
+        Sort obj = new Sort();
+        System.out.println(obj.binary_algo(arr,2));
+    }
+    public static int binary_algo(int arr[],int search){
+        int right=arr.length-1;
+        int left = 0;
+        int c=-1;
+
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(arr[mid]==search){
+                c=mid;
+                break;
+            }
+            if(arr[mid]>search){
+                left=mid+1;
+            }else{
+                right = mid-1;
+            }
+
+        }
+        return c;
+    }
+}
+
+9.  Quick sort
+Time:-O(nlogn) Best and avg , O(n^2) worst
+Space:- O(n)
+
+def partition(A,p,r):
+    i=p-1
+    x=A[r]
+    for j in range(p,r):
+        if(A[j]<=x):
+            i=i+1
+            temp=A[i]
+            A[i]=A[j]
+            A[j]=temp
+    temp=A[i+1]
+    A[i+1]=A[r]
+    A[r]=temp
+    return (i+1)
+def quickSort(A,p,r):
+    if p<r:
+        q=partition(A,p,r)
+        quickSort(A,p,q-1)
+        quickSort(A,q+1,r)
+
+A=[10,7,3,5,6,4]
+n=len(A)
+quickSort(A,0,n-1)
+print(A)
+
+10. merge sort
+Time:- O(nlogn)
+Space:-O(n)
+
+def MergeSort(A,p,r):
+    if(p<r):
+        q= (p+r)//2
+        MergeSort(A,p,q)
+        MergeSort(A,q+1,r)
+        Merge(A,p,q,r)
+def Merge(A,p,q,r):
+    n1 = q-p+1
+    n2=r-q
+    l1=[0]*(n1+1)
+    l2=[0]*(n2+1)
+    for i in range(n1):
+        l1[i] = A[p+i]
+    for i in range(n2):
+        l2[i] = A[q+i+1]
+    i=0
+    j=0
+    k=p
+    while(i<n1 and j<n2):
+        if(l1[i]<l2[j]):
+            A[k] = l1[i]
+            i=i+1
+        else:
+            A[k] = l2[j]
+            j=j+1
+            k=k+1
+    while(i<n1):
+        A[k] = l1[i]
+        i = i+1
+        k=k+1
+    while(j<n2):
+        A[k] = l2[j]
+        j = j+1
+        k=k+1
+A = [5,4,3,2,1]
+MergeSort(A,0,len(A)-1)
+print(A)
+
+
+11. selection sort
+Time:- O(n^2)
+Space:-O(1)
+
+import java.util.Arrays;
+public class MySelectionSort {
+public static void main(String[] args) {
+int[] arr = {12,8,16,5,2};
+System.out.println("Unsorted array is ---> "+ Arrays.toString(arr));
+MySelectionSortobj = new MySelectionSort();
+obj.selectionSort(arr);
+System.out.println("Sorted array is ---> "+Arrays.toString(arr));
+}
+public void selectionSort(int[] arr){
+
+int sortedIndex = arr.length;
+ int maxElement;
+ int maxElementInedx;
+
+for (int i = 0; i <arr.length; i++) {
+maxElement = arr[0];
+maxElementInedx = 0;
+for (int j = 0; j <sortedIndex; j++) {
+if(maxElement<arr[j]){
+maxElement = arr[j];
+maxElementInedx = j;
+}
+ }
+System.out.println(maxElement);
+sortedIndex--;
+ int temp = arr[maxElementInedx];
+arr[maxElementInedx] = arr[sortedIndex];
+arr[sortedIndex] = temp;
+}
+ }
+}
+
